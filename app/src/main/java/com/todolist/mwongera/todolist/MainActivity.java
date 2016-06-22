@@ -1,7 +1,9 @@
 package com.todolist.mwongera.todolist;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.todolist.mwongera.todolist.db.TaskContract;
+import com.todolist.mwongera.todolist.db.TaskDbHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private TaskDbHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mHelper = new TaskDbHelper(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -44,10 +52,21 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String task = String.valueOf(taskEditText.getText());
-                    Log.d(TAG, "Task to add: " + task);
+                    SQLiteDatabase db = mHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(TaskContract.TaskEntry.COL_TASK_TITLE, task);
+                    db.insertWithOnConflict(TaskContract.TaskEntry.TABLE,
+                            null,
+                            values,
+                            SQLiteDatabase.CONFLICT_REPLACE);
+                    db.close();
                 }
             })
             .setNegativeButton("Cancel", null)
             .create();
     dialog.show;
+    return true;
+
+    default:
+        return super.onOptionsItemSelected(item);
     }
