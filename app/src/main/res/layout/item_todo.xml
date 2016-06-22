@@ -22,7 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="Done"
-        android:onClick="deletetask"
+        android:onClick="deleteTask"
         />
 
 </RelativeLayout>
