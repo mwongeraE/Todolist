@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.todolist.mwongera.todolist.db.TaskContract;
 import com.todolist.mwongera.todolist.db.TaskDbHelper;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private TaskDbHelper mHelper;
+    private ListView mTaskListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
